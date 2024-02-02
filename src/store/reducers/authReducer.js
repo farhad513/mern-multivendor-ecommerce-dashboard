@@ -9,10 +9,8 @@ export const admin_login = createAsyncThunk(
     try {
       const { data } = await axios.post(`${base_url}/api/admin/login`, info);
       localStorage.setItem("accessToken", data.token);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error);
     }
   }
@@ -29,7 +27,6 @@ export const seller_register = createAsyncThunk(
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -43,7 +40,6 @@ export const seller_login = createAsyncThunk(
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -62,7 +58,6 @@ export const get_user_info = createAsyncThunk(
       const { data } = await axios.get(`${base_url}/api/get-user`, config);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -83,10 +78,8 @@ export const profile_image_upload = createAsyncThunk(
         image,
         config
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -107,10 +100,8 @@ export const profile_add_info = createAsyncThunk(
         info,
         config
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }

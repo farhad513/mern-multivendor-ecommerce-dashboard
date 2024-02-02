@@ -17,7 +17,6 @@ export const get_seller_dashboard = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -37,10 +36,8 @@ export const get_admin_dashboard = createAsyncThunk(
         `${base_url}/api/admin/get-admin-dasboard-data`,
         config
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }

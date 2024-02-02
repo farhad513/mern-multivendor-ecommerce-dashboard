@@ -1,21 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api/api";
-
+import axios from "axios";
+import { base_url } from "../../utils/config";
 export const addCategory = createAsyncThunk(
   "category/addCategory",
-  async ({ name, image }, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
+  async ({ name, image }, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("image", image);
-      const { data } = await api.post("/category/add", formData, {
-        withCredentials: true,
-      });
-      //   console.log(data);
+      const { data } = await axios.post(
+        `${base_url}/api/category/add`,
+        formData,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -25,19 +30,22 @@ export const get_category = createAsyncThunk(
   "category/get_category",
   async (
     { perPage, page, searchValue },
-    { rejectWithValue, fulfillWithValue }
+    { rejectWithValue, fulfillWithValue, getState }
   ) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/category/get?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/category/get?page=${page}&&searchValue=${searchValue}&&perPage=${perPage}`,
+        config
       );
-      // console.log(data);
+
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }

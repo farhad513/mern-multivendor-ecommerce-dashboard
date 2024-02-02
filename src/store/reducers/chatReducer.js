@@ -1,19 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
-
+import axios from "axios";
+import { base_url } from "../../utils/config";
 export const get_customers = createAsyncThunk(
   "chat/get_customers",
-  async (sellerId, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
+  async (sellerId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(`/chat/seller/get_customers/${sellerId}`, {
-        withCredentials: true,
-      });
-
-      //   console.log(data);
+      const { data } = await api.get(
+        `${base_url}/api/chat/seller/get_customers/${sellerId}`,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -21,19 +25,20 @@ export const get_customers = createAsyncThunk(
 
 export const get_customer_message = createAsyncThunk(
   "chat/get_customer_message",
-  async (customerId, { rejectWithValue, fulfillWithValue }) => {
+  async (customerId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/chat/seller/get_customer_message/${customerId}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/chat/seller/get_customer_message/${customerId}`,
+        config
       );
-
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -41,19 +46,21 @@ export const get_customer_message = createAsyncThunk(
 
 export const send_message = createAsyncThunk(
   "chat/send_message",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post(
-        `/chat/seller/send_message_to_customer`,
+      const { data } = await axios.post(
+        `${base_url}/api/chat/seller/send_message_to_customer`,
         info,
-        {
-          withCredentials: true,
-        }
+        config
       );
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -61,64 +68,81 @@ export const send_message = createAsyncThunk(
 
 export const get_sellers = createAsyncThunk(
   "chat/get_sellers",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/chat/admin/get_sellers`,
-
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/chat/admin/get_sellers`,
+        config
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      // console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
 );
 export const send_message_seller_admin = createAsyncThunk(
   "chat/send_message_seller_admin",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post(`/chat/send_message_seller_admin`, info, {
-        withCredentials: true,
-      });
-      // console.log(data);
+      const { data } = await axios.post(
+        `${base_url}/api/chat/send_message_seller_admin`,
+        info,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      // console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
 );
 export const get_admin_message = createAsyncThunk(
   "chat/get_admin_message",
-  async (receverId, { rejectWithValue, fulfillWithValue }) => {
+  async (receverId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(`/chat/get_admin_messages/${receverId}`, {
-        withCredentials: true,
-      });
-      console.log(data);
+      const { data } = await axios.get(
+        `${base_url}/api/chat/get_admin_messages/${receverId}`,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      // console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
 );
 export const get_seller_message = createAsyncThunk(
   "chat/get_seller_message",
-  async (receverId, { rejectWithValue, fulfillWithValue }) => {
+  async (receverId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(`/chat/get_seller_messages/${receverId}`, {
-        withCredentials: true,
-      });
-      console.log(data);
+      const { data } = await axios.get(
+        `${base_url}/api/chat/get_seller_messages/${receverId}`,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      // console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
