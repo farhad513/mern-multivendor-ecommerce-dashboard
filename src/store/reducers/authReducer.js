@@ -170,7 +170,7 @@ export const authReducer = createSlice({
     },
     [admin_login.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
+      state.errorMessage = payload;
     },
     [seller_register.pending]: (state, _) => {
       state.loader = true;
