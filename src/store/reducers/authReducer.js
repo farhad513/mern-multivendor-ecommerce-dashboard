@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api/api";
+
 import jwt from "jwt-decode";
+import axios from "axios";
+import { base_url } from "../../utils/config";
 export const admin_login = createAsyncThunk(
   "auth/admin_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
     try {
-      const { data } = await api.post("/admin/login", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(`${base_url}/api/admin/login`, info);
       localStorage.setItem("accessToken", data.token);
-      // console.log(data);
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response.data);
@@ -22,13 +21,12 @@ export const admin_login = createAsyncThunk(
 export const seller_register = createAsyncThunk(
   "auth/seller_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
     try {
-      const { data } = await api.post("/seller/register", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/seller/register`,
+        info
+      );
       localStorage.setItem("accessToken", data.token);
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response.data);
@@ -40,13 +38,9 @@ export const seller_register = createAsyncThunk(
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
     try {
-      const { data } = await api.post("/seller/login", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(`${base_url}/api/seller/login`, info);
       localStorage.setItem("accessToken", data.token);
-      // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response.data);
@@ -57,13 +51,15 @@ export const seller_login = createAsyncThunk(
 
 export const get_user_info = createAsyncThunk(
   "auth/get_user_info",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
-    // console.log(info);
+  async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get("/get-user", {
-        withCredentials: true,
-      });
-      // console.log(data);
+      const { data } = await axios.get(`${base_url}/api/get-user`, config);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response.data);
@@ -74,11 +70,19 @@ export const get_user_info = createAsyncThunk(
 
 export const profile_image_upload = createAsyncThunk(
   "auth/profile_image_upload",
-  async (image, { rejectWithValue, fulfillWithValue }) => {
+  async (image, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/profile/image/upload", image, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/profile/image/upload`,
+        image,
+        config
+      );
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
@@ -90,11 +94,19 @@ export const profile_image_upload = createAsyncThunk(
 
 export const profile_add_info = createAsyncThunk(
   "auth/profile_add_info",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/profile/info/add", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/profile/info/add`,
+        info,
+        config
+      );
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
@@ -108,9 +120,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async ({ navigate, role }, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/logout", navigate, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(`${base_url}/api/logout`, navigate);
       console.log(data);
       localStorage.removeItem("accessToken");
       if (role === "admin") {

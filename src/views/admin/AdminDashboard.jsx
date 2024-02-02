@@ -108,7 +108,7 @@ const AdminDashboard = () => {
   };
   useEffect(() => {
     dispatch(get_admin_dashboard());
-  });
+  }, []);
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">

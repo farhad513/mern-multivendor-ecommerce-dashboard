@@ -12,7 +12,6 @@ const AdminLogin = () => {
     (state) => state.auth
   );
   const [state, setState] = useState({
-    name: "",
     email: "",
     password: "",
   });

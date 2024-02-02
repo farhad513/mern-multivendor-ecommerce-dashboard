@@ -3,7 +3,7 @@ const local = "http://localhost:8080";
 const pro = "https://robobitst-backend.onrender.com";
 
 let api_url = "";
-let mode = "pro";
+let mode = "dev";
 if (mode === "pro") {
   api_url = pro;
 } else {

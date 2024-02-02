@@ -1,14 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api/api";
-
+import { base_url } from "../../utils/config";
+import axios from "axios";
 export const get_seller_dashboard = createAsyncThunk(
   "dashboard/get_seller_dashboard",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get("seller/get-seller-dasboard-data", {
-        withCredentials: true,
-      });
-      console.log(data);
+      const { data } = await axios.get(
+        `${base_url}/api/seller/get-seller-dasboard-data`,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response.data);
@@ -19,11 +25,18 @@ export const get_seller_dashboard = createAsyncThunk(
 
 export const get_admin_dashboard = createAsyncThunk(
   "dashboard/get_admin_dashboard",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get("admin/get-admin-dasboard-data", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `${base_url}/api/admin/get-admin-dasboard-data`,
+        config
+      );
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
