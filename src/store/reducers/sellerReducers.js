@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import axios from "axios";
+import { base_url } from "../../utils/config";
 
 export const get_seller_request = createAsyncThunk(
   "seller/get_seller_request",
@@ -128,9 +129,7 @@ export const create_stripe_account = createAsyncThunk(
         withCredentials: true,
       });
       window.location.href = url;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    } catch (error) {}
   }
 );
 
