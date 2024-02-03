@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+import { base_url } from "./config";
 export const overRideCss = {
   display: "flex",
   margin: "0 auto",
@@ -7,4 +8,4 @@ export const overRideCss = {
   alignItems: "center",
 };
 
-export const socket = io("http://localhost:8080");
+export const socket = io(base_url);
